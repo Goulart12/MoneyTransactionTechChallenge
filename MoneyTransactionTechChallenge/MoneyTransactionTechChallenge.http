@@ -1,0 +1,6 @@
+@MoneyTransactionTechChallenge_HostAddress = http://localhost:5173
+
+GET {{MoneyTransactionTechChallenge_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

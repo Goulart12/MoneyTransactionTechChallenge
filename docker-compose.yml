@@ -1,0 +1,41 @@
+services:
+  moneytransactiontechchallenge:
+    image: moneytransactiontechchallenge
+    build:
+      context: .
+      dockerfile: MoneyTransactionTechChallenge/Dockerfile
+  mttc-postgres:
+    image: 'postgres:15.3-alpine'
+    container_name: mttc-postgres
+    restart: 'no'
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: MoneyTransaction
+    ports:
+      - '5431:5432'
+    volumes:
+      - './data/postgres:/var/lib/postgresql/data'
+  mttc-pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    container_name: mttc-pgadmin
+    restart: 'no'
+    depends_on:
+      - mttc-postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@localhost.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    user: '$UID:$GID'
+    ports:
+      - '8080:80'
+    volumes:
+      - './data/pgadmin:/var/lib/pgadmin'
+  redis:
+    image: redis
+    command: redis-server --requirepass password
+    ports:
+      - '6378:6378'
+networks:
+  default:
+    name: local-network
+    external: true
