@@ -49,24 +49,23 @@ public class DataContext
                           email VARCHAR,
                           password VARCHAR,
                           cpf VARCHAR,
-                          user_type VARCHAR,
-                          CONSTRAINT user_type_check CHECK (user_type IN ('Usuario', 'Lojista'))
+                          user_type VARCHAR
                       );
                       """;
             await connection.ExecuteAsync(sql);
         }
         
-        // async Task _initWallets()
-        // {
-        //     var sql = """
-        //               CREATE TABLE IF NOT EXISTS wallet (
-        //                   id SERIAL PRIMARY KEY,
-        //                   balance DECIMAL,
-        //                   userId VARCHAR,
-        //                   CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES users(id),
-        //               );
-        //               """;
-        //     await connection.ExecuteAsync(sql);
-        // }
+        async Task _initWallets()
+        {
+            var sql = """
+                      CREATE TABLE IF NOT EXISTS wallet (
+                          id SERIAL PRIMARY KEY,
+                          balance DECIMAL,
+                          userId VARCHAR,
+                          CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES users(id)
+                      );
+                      """;
+            await connection.ExecuteAsync(sql);
+        }
     }
 }

@@ -52,7 +52,7 @@ builder.Services.AddAuthentication(cfg => {
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = configuration.GetConnectionString("RedisConnection");
-    options.InstanceName = "ShopListApp_"; // Optional prefix for cache keys
+    options.InstanceName = "MoneyTransactionTechDemo_"; // Optional prefix for cache keys
 });
 
 var services = builder.Services;

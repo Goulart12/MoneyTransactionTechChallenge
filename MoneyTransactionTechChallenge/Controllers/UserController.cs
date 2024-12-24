@@ -15,7 +15,7 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("api/user/register")]
-    public async Task<IActionResult> CreateUser(UserInputModel userInputModel)
+    public async Task<IActionResult> CreateUser([FromBody] UserInputModel userInputModel)
     {
         await _userService.CreateUser(userInputModel);
         
