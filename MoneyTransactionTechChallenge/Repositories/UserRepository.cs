@@ -1,71 +1,76 @@
 using Dapper;
 using MoneyTransactionTechChallenge.Helpers.DataHelpers;
 using MoneyTransactionTechChallenge.Models;
+using Npgsql;
 
 namespace MoneyTransactionTechChallenge.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private DataContext _context;
-
-    public UserRepository(DataContext context)
+    private NpgsqlConnection _connection;
+    public UserRepository()
     {
-        _context = context;
+        _connection = new NpgsqlConnection("Host=localhost;Port=5431;Database=MoneyTransaction;Username=postgres;Password=password");
+        _connection.Open();
     }
     
     public async Task CreateAsync(User user)
     {
-        using var connection = _context.CreateConnection();
-        var sql = """INSERT INTO users (id, first_name, last_name, email, password, cpf, user_type) VALUES (@Id, @FirstName, @LastName, @Email, @Password, @CPF, @Role) """;
+        var sql = "INSERT INTO users (Id, FirstName, LastName, Email, Password, CPF, Role) VALUES (@id, @first_name, @last_name, @email, @password, @cpf, @user_type)";
+
+        var queryArguments = new
+        {
+            id = user.Id,
+            first_name = user.FirstName,
+            last_name = user.LastName,
+            email = user.Email,
+            password = user.Password,
+            cpf = user.CPF,
+            user_type = user.Role
+        };
         
-        await connection.ExecuteAsync(sql, user);
+        await _connection.ExecuteAsync(sql, queryArguments);
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
     {
-        using var connection = _context.CreateConnection();
-        var sql = """SELECT * FROM users""";
+        var sql = "SELECT * FROM users";
 
-        return await connection.QueryAsync<User>(sql);
+        return await _connection.QueryAsync<User>(sql);
     }
 
     public async Task<User?> GetByIdAsync(string id)
     {
-        using var connection = _context.CreateConnection();
-        var sql = """SELECT * FROM users WHERE id = @id""";
+        var sql = "SELECT * FROM users WHERE id = @id";
         
-        return await connection.QuerySingleOrDefaultAsync<User>(sql, new { id });
+        return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { id });
     }
 
     public async Task<User?> GetByEmailAsync(string email)
     {
-        using var connection = _context.CreateConnection();
-        var sql = """SELECT * FROM users WHERE email = @email""";
+        var sql = "SELECT * FROM users WHERE email = @email";
         
-        return await connection.QuerySingleOrDefaultAsync<User>(sql, new { email });
+        return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { email });
     }
     
     public async Task<User?> GetByCpfAsync(string cpf)
     {
-        using var connection = _context.CreateConnection();
-        var sql = """SELECT * FROM users WHERE cpf = @cpf""";
+        var sql = "SELECT * FROM users WHERE cpf = @cpf";
         
-        return await connection.QuerySingleOrDefaultAsync<User>(sql, new { cpf });
+        return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { cpf });
     }
 
     public async Task UpdateAsync(User user)
     {
-        using var connection = _context.CreateConnection();
-        var sql = """UPDATE users SET first_name = @FirstName, last_name = @LastName, email = @Email, password = @Password, cpf = @CPF, user_type = @Role WHERE id = @Id """;
+        var sql = "UPDATE users SET first_name = @FirstName, last_name = @LastName, email = @Email, password = @Password, cpf = @CPF, user_type = @Role WHERE id = @Id ";
         
-        await connection.ExecuteAsync(sql, user);
+        await _connection.ExecuteAsync(sql, user);
     }
 
     public async Task DeleteAsync(string id)
     {
-        using var connection = _context.CreateConnection();
-        var sql = """DELETE FROM users WHERE id = @Id""";
+        var sql = "DELETE FROM users WHERE id = @Id";
         
-        await connection.ExecuteAsync(sql, new { id });
+        await _connection.ExecuteAsync(sql, new { id });
     }
 }

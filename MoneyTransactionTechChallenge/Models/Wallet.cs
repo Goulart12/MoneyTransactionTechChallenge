@@ -11,6 +11,10 @@ public class Wallet
     [Column("balance")]
     public decimal Balance { get; set; }
     
+    [Column("user")]
+    public User User { get; set; }
+    
     [Column("userId")]
     public string UserId { get; set; }
+    
 }
