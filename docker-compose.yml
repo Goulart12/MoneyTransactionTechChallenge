@@ -38,4 +38,4 @@ services:
 networks:
   default:
     name: local-network
-    external: true
+    external: false

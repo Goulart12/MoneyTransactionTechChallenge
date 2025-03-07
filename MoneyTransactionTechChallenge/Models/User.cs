@@ -11,10 +11,10 @@ public class User
     public string Id { get; set; }
     
     [Column("first_name")]
-    public string FirstName { get; set; }
+    public string First_Name { get; set; }
     
     [Column("last_name")]
-    public string LastName { get; set; }
+    public string Last_Name { get; set; }
     
     [Column("email")]
     public string Email { get; set; }
@@ -28,5 +28,5 @@ public class User
     public string CPF { get; set; }
     
     [Column("user_type")]
-    public Role Role { get; set; }
+    public Role User_Type { get; set; }
 }

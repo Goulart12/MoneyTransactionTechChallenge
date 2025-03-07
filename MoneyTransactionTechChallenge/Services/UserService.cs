@@ -40,10 +40,10 @@ public partial class UserService : IUserService
         {
             Id = Guid.NewGuid().ToString(),
             Email = inputModel.Email,
-            FirstName = inputModel.FirstName,
-            LastName = inputModel.LastName,
+            First_Name = inputModel.FirstName,
+            Last_Name = inputModel.LastName,
             Password = hash,
-            Role = inputModel.Role,
+            User_Type = inputModel.Role,
             CPF = inputModel.CPF,
         };
         

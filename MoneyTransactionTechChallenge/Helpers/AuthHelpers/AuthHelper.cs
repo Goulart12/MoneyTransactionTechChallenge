@@ -18,7 +18,7 @@ public class AuthHelper : IAuthHelper
     public string GenerateJwtToken(User user) {
         var claims = new List<Claim> {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
+            new Claim(ClaimTypes.Name, user.First_Name + " " + user.Last_Name),
         };
         var jwtToken = new JwtSecurityToken(
             claims: claims,

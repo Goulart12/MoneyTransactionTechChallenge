@@ -16,17 +16,17 @@ public class UserRepository : IUserRepository
     
     public async Task CreateAsync(User user)
     {
-        var sql = "INSERT INTO users (Id, FirstName, LastName, Email, Password, CPF, Role) VALUES (@id, @first_name, @last_name, @email, @password, @cpf, @user_type)";
+        var sql = "INSERT INTO users (id, first_name, last_name, email, password, cpf, user_type) VALUES (@id, @first_name, @last_name, @email, @password, @cpf, @user_type)";
 
         var queryArguments = new
         {
             id = user.Id,
-            first_name = user.FirstName,
-            last_name = user.LastName,
+            first_name = user.First_Name,
+            last_name = user.Last_Name,
             email = user.Email,
             password = user.Password,
             cpf = user.CPF,
-            user_type = user.Role
+            user_type = user.User_Type
         };
         
         await _connection.ExecuteAsync(sql, queryArguments);
