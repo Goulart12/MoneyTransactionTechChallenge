@@ -6,7 +6,7 @@ namespace MoneyTransactionTechChallenge.Models;
 public class Wallet
 {
     [Column("wallet_id")]
-    public string Id { get; set; }
+    public string Wallet_Id { get; set; }
     
     [Column("balance")]
     public decimal Balance { get; set; }
@@ -14,7 +14,7 @@ public class Wallet
     [Column("user")]
     public User User { get; set; }
     
-    [Column("userId")]
-    public string UserId { get; set; }
+    [Column("user_id")]
+    public string User_Id { get; set; }
     
 }

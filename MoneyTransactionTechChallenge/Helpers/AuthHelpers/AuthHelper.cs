@@ -19,6 +19,7 @@ public class AuthHelper : IAuthHelper
         var claims = new List<Claim> {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Name, user.First_Name + " " + user.Last_Name),
+            new Claim(ClaimTypes.Role, user.User_Type.ToString()),
         };
         var jwtToken = new JwtSecurityToken(
             claims: claims,
@@ -40,5 +41,14 @@ public class AuthHelper : IAuthHelper
         
         var claims = token.Claims.Select(claim => (claim.Type, claim.Value)).ToList();
         return claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+    }
+    
+    public string GetCurrentUserRole(string jwtToken)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(jwtToken);
+        
+        var claims = token.Claims.Select(claim => (claim.Type, claim.Value)).ToList();
+        return claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role).Value;
     }
 }

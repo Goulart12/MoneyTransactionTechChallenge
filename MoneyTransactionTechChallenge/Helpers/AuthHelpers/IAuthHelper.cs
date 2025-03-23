@@ -6,4 +6,5 @@ public interface IAuthHelper
 {
     string GenerateJwtToken(User user);
     string GetCurrentUserId(string jwtToken);
+    string GetCurrentUserRole(string jwtToken);
 }

@@ -59,10 +59,10 @@ public class DataContext
         {
             var sql = """
                       CREATE TABLE IF NOT EXISTS wallet (
-                          id SERIAL PRIMARY KEY,
+                          wallet_id VARCHAR PRIMARY KEY,
                           balance DECIMAL,
-                          userId VARCHAR,
-                          CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES users(id)
+                          user_id VARCHAR,
+                          CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
                       );
                       """;
             await connection.ExecuteAsync(sql);

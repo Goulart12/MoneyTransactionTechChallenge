@@ -2,9 +2,13 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MoneyTransactionTechChallenge.Helpers.AuthHelpers;
+using MoneyTransactionTechChallenge.Helpers.CacheHelpers;
 using MoneyTransactionTechChallenge.Helpers.DataHelpers;
 using MoneyTransactionTechChallenge.Repositories;
+using MoneyTransactionTechChallenge.Repositories.FinancialTransactions;
 using MoneyTransactionTechChallenge.Services;
+using MoneyTransactionTechChallenge.Services.FinancialTransactions;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +66,11 @@ services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 services.AddSingleton<DataContext>();
 services.AddScoped<IUserRepository, UserRepository>();
 services.AddScoped<IUserService, UserService>();
+services.AddScoped<IAuthenticationService, AuthenticationService>();
+services.AddScoped<IAuthHelper, AuthHelper>();
+services.AddScoped<IRedisCacheService, RedisCacheService>();
+services.AddScoped<IWalletRepository, WalletRepository>();
+services.AddScoped<IFinancialTransactionService, FinancialTransactionService>();
 
 var app = builder.Build();
 

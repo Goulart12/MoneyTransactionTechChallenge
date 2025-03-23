@@ -34,7 +34,7 @@ services:
     image: redis
     command: redis-server --requirepass password
     ports:
-      - '6378:6378'
+      - '6379:6379'
 networks:
   default:
     name: local-network
