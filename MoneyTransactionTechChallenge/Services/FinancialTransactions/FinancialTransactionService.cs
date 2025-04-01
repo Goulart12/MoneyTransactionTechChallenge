@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MoneyTransactionTechChallenge.Helpers.AuthHelpers;
 using MoneyTransactionTechChallenge.Helpers.CacheHelpers;
 using MoneyTransactionTechChallenge.Models;
@@ -13,14 +14,16 @@ public class FinancialTransactionService : IFinancialTransactionService
     private readonly IWalletRepository _walletRepository;
     private readonly IAuthHelper _authHelper;
     private readonly IRedisCacheService _RedisCacheService;
+    private readonly HttpClient _httpClient;
 
     private const decimal InitialBalance = 0;
 
-    public FinancialTransactionService(IWalletRepository walletRepository, IAuthHelper authHelper, IRedisCacheService redisCacheService)
+    public FinancialTransactionService(IWalletRepository walletRepository, IAuthHelper authHelper, IRedisCacheService redisCacheService, HttpClient httpClient)
     {
         _walletRepository = walletRepository;
         _authHelper = authHelper;
         _RedisCacheService = redisCacheService;
+        _httpClient = httpClient;
     }
 
     public async Task CreateWalletAsync()
@@ -115,34 +118,27 @@ public class FinancialTransactionService : IFinancialTransactionService
         
         payerWallet.Balance = newPayerBalance;
         payeeWallet.Balance = newPayeeBalance;
-        
-        var client = new RestClient($"https://util.devi.tools/");
-        var request = new RestRequest("api/v2/authorize");
-        var response = await client.GetAsync(request);
 
-        if (!response.IsSuccessful)
+        var url = "https://util.devi.tools/api/v2/authorize";
+        var response = await _httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
         {
             throw new ApplicationException("Unable to connect to the authorization process.");
-        }
-
-        if (response.IsSuccessful)
-        {
-            var content = JsonSerializer.Deserialize<TransactionAuth>(response.Content);
-
-            if (!content.Authorization)
-            {
-                throw new ApplicationException("Unable to connect to the authorization process.");
-            }
         }
         
         await _walletRepository.UpdateWalletAsync(payerWallet);
         await _walletRepository.UpdateWalletAsync(payeeWallet);
         
-        var clientNotification = new RestClient($"https://util.devi.tools/");
-        var requestNotification = new RestRequest("api/v1/notify)");
+        var clientNotification = new RestClient($"https://util.devi.tools/api/v1/notify)");
+        var requestNotification = new RestRequest("");
         var responseNotification = await clientNotification.PostAsync(requestNotification);
+        
+        string jsonContent = "{\"key\": \"value\"}";
+        var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
+        var messageResponse = await _httpClient.PostAsync("https://util.devi.tools/api/v1/notify)", content);
 
-        if (responseNotification.ResponseStatus == ResponseStatus.Error)
+        if (!messageResponse.IsSuccessStatusCode)
         {
             throw new ApplicationException("Unable to connect to the notification process.");
         }

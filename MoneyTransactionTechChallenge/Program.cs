@@ -70,7 +70,7 @@ services.AddScoped<IAuthenticationService, AuthenticationService>();
 services.AddScoped<IAuthHelper, AuthHelper>();
 services.AddScoped<IRedisCacheService, RedisCacheService>();
 services.AddScoped<IWalletRepository, WalletRepository>();
-services.AddScoped<IFinancialTransactionService, FinancialTransactionService>();
+services.AddHttpClient<IFinancialTransactionService, FinancialTransactionService>();
 
 var app = builder.Build();
 
