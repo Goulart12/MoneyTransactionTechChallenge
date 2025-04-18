@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyTransactionTests", "MoneyTransactionTests\MoneyTransactionTests.csproj", "{9A59AEF1-8673-4977-888C-657B7AF38A75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{F4F051E5-5C8C-413F-8193-559B91FB5243}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4F051E5-5C8C-413F-8193-559B91FB5243}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4F051E5-5C8C-413F-8193-559B91FB5243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A59AEF1-8673-4977-888C-657B7AF38A75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A59AEF1-8673-4977-888C-657B7AF38A75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A59AEF1-8673-4977-888C-657B7AF38A75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A59AEF1-8673-4977-888C-657B7AF38A75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
